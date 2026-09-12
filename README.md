@@ -1,21 +1,19 @@
 # Greece Earthquake Alert
 
-A small Python utility that checks the live seismic feed from the Seismological Laboratory of the University of Athens and prints the most recent earthquake information in the terminal.
+A small command-line utility that retrieves the latest earthquake listed in the Seismological Laboratory of the University of Athens feed and prints its details as formatted JSON.
 
-## Overview
+The script is designed for a quick terminal check. It does not run continuously, send notifications, or provide a web dashboard.
 
-This project fetches the XML feed from:
+> **Non-commercial use only:** This project is provided as a lightweight example and is not intended for commercial use.
 
-- http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml
+## How it works
 
-It then parses the first item in the feed and prints the event details. The script is intentionally minimal and designed for quick checks rather than a full dashboard or alert system.
+1. Fetches the live XML feed from the University of Athens.
+2. Parses the first `<item>` with BeautifulSoup and `lxml`.
+3. Extracts the location, time, coordinates, depth, and magnitude.
+4. Prints the event as JSON.
 
-## What it does
-
-- fetches live earthquake data from the University of Athens feed
-- parses the XML with BeautifulSoup
-- extracts the latest event information
-- prints the result to the terminal
+Data source: [University of Athens seismicity feed](http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml)
 
 ## Requirements
 
@@ -25,13 +23,13 @@ It then parses the first item in the feed and prints the event details. The scri
 
 ## Installation
 
-With `uv`:
+### Using `uv` (recommended)
 
 ```bash
 uv sync
 ```
 
-With `pip`:
+### Using `pip`
 
 ```bash
 pip install requests beautifulsoup4 lxml
@@ -39,7 +37,7 @@ pip install requests beautifulsoup4 lxml
 
 ## Usage
 
-Run the script from the project folder:
+Run the script from the project directory:
 
 ```bash
 uv run .\main.py
@@ -64,7 +62,7 @@ python main.py
 }
 ```
 
-The exact values will vary depending on the current feed data.
+The values will change as the feed is updated. Internet access is required when the script runs.
 
 ## Project files
 
@@ -74,6 +72,6 @@ The exact values will vary depending on the current feed data.
 
 ## Notes
 
-- The data source is an external university feed and may change without notice.
+- The data source is an external university feed and may be unavailable or change format without notice.
+- The script reports the first event returned by the feed; it does not maintain history or filter events by magnitude.
 - This project is a lightweight example for checking recent seismic activity in Greece.
-- This project is not intended for commercial use.
