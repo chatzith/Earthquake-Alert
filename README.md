@@ -4,7 +4,6 @@ A small command-line utility that retrieves the latest earthquake listed in the 
 
 The script is designed for a quick terminal check. It does not run continuously, send notifications, or provide a web dashboard.
 
-> **Non-commercial use only:** This project is provided as a lightweight example and is not intended for commercial use.
 
 ## How it works
 
@@ -12,6 +11,8 @@ The script is designed for a quick terminal check. It does not run continuously,
 2. Parses the first `<item>` with BeautifulSoup and `lxml`.
 3. Extracts the location, time, coordinates, depth, and magnitude.
 4. Prints the event as JSON.
+
+The first event returned by the feed is treated as the latest event. The script does not keep a history or apply magnitude or location filters.
 
 Data source: [University of Athens seismicity feed](http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml)
 
@@ -31,19 +32,24 @@ uv sync
 
 ### Using `pip`
 
+Create and activate a virtual environment, then install the dependencies:
+
 ```bash
+python -m venv .venv
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
 pip install requests beautifulsoup4 lxml
 ```
 
 ## Usage
 
-Run the script from the project directory:
+Run the script from the project directory with `uv`:
 
 ```bash
-uv run .\main.py
+uv run python main.py
 ```
 
-Or:
+Or, with an activated virtual environment:
 
 ```bash
 python main.py
@@ -73,5 +79,5 @@ The values will change as the feed is updated. Internet access is required when 
 ## Notes
 
 - The data source is an external university feed and may be unavailable or change format without notice.
-- The script reports the first event returned by the feed; it does not maintain history or filter events by magnitude.
 - This project is a lightweight example for checking recent seismic activity in Greece.
+- This project is not intended for commercial use.
