@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 warnings.filterwarnings("ignore")
 
 
-def latest_event() -> json:
+def latest_event() -> json | str:
     """Returns the latest earthquake event."""
 
     res = requests.get("http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml")
@@ -43,6 +43,8 @@ def latest_event() -> json:
 
             return json.dumps(event, indent=4)
         return "No events found..."
+
+    return f"Destination source did not respond {res.reason}"
 
 
 if __name__ == "__main__":
