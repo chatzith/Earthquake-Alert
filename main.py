@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 warnings.filterwarnings("ignore")
 
 
-def latest_event() -> json | str:
+def latest_event() -> str:
     """Returns the latest earthquake event."""
 
     res = requests.get("http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml")
