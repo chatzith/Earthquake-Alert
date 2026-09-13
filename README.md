@@ -1,63 +1,58 @@
 # Greece Earthquake Alert
 
-A small command-line utility that retrieves the latest earthquake listed in the Seismological Laboratory of the University of Athens feed and prints its details as formatted JSON.
+A small command-line utility that fetches the latest earthquake listed in the Seismological Laboratory of the University of Athens feed and prints its details as formatted JSON.
 
-The script is designed for a quick terminal check. It does not run continuously, send notifications, or provide a web dashboard.
-
-
-## How it works
-
-1. Fetches the live XML feed from the University of Athens.
-2. Parses the first `<item>` with BeautifulSoup and `lxml`.
-3. Extracts the location, time, coordinates, depth, and magnitude.
-4. Prints the event as JSON.
-
-The first event returned by the feed is treated as the latest event. The script does not keep a history or apply magnitude or location filters.
-
-Data source: [University of Athens seismicity feed](http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml)
+The script performs one request each time it runs. It does not poll continuously, send notifications, store event history, or provide a web dashboard.
 
 ## Requirements
 
-- Python 3.12+
-- Internet access
-- `uv` (recommended) or `pip`
+- Python 3.12 or newer
+- Internet access when the script runs
+- [`uv`](https://docs.astral.sh/uv/) or `pip`
 
-## Installation
+## Setup
 
-### Using `uv` (recommended)
+Using `uv`:
 
 ```bash
 uv sync
 ```
 
-### Using `pip`
-
-Create and activate a virtual environment, then install the dependencies:
+Using `pip` in a virtual environment:
 
 ```bash
 python -m venv .venv
-# Windows PowerShell
+```
+
+Activate the environment in Windows PowerShell:
+
+```powershell
 .\.venv\Scripts\Activate.ps1
-pip install requests beautifulsoup4 lxml
+```
+
+Then install the dependencies:
+
+```bash
+pip install -e .
 ```
 
 ## Usage
 
-Run the script from the project directory with `uv`:
+Run the command from the project directory:
 
 ```bash
 uv run python main.py
 ```
 
-Or, with an activated virtual environment:
+With an activated virtual environment, use:
 
 ```bash
 python main.py
 ```
 
-## Example output
+The first `<item>` returned by the feed is treated as the latest event. A successful response includes the location, UTC time, latitude, longitude, depth, and magnitude:
 
-```text
+```json
 {
     "Location": "12.0 km NE of Patras",
     "Time": "12-Sep-2026 12:04:44 (UTC)",
@@ -68,16 +63,17 @@ python main.py
 }
 ```
 
-The values will change as the feed is updated. Internet access is required when the script runs.
+The values change as the feed is updated. If no event is available, the script reports that no events were found; if the feed cannot be reached, it reports the response reason.
+
+## Data source
+
+[University of Athens seismicity feed](http://www.geophysics.geol.uoa.gr/stations/maps/seismicity.xml)
+
+The external feed may be unavailable or change format without notice.
+This project is intended for personal and educational use and is not intended for commercial use.
 
 ## Project files
 
-- `main.py` — fetches and parses the earthquake XML feed
-- `pyproject.toml` — project metadata and Python dependencies
-- `README.md` — project documentation
-
-## Notes
-
-- The data source is an external university feed and may be unavailable or change format without notice.
-- This project is a lightweight example for checking recent seismic activity in Greece.
-- This project is not intended for commercial use.
+- `main.py` - fetches and parses the earthquake XML feed
+- `pyproject.toml` - project metadata and dependencies
+- `README.md` - project documentation
